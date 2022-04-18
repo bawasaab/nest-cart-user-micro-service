@@ -7,7 +7,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { EventPattern } from '@nestjs/microservices';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -18,32 +18,33 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  @MessagePattern('createUser')
+  @EventPattern('createUser')
   async create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
   @Get()
-  @MessagePattern('findAllUser')
+  @EventPattern('findAllUser')
   async findAll() {
     return this.userService.findAll();
   }
 
   @Get(':id')
-  @MessagePattern('findOneUser')
+  @EventPattern('findOneUser')
   async findOne(@Param('id') id: ObjectId) {
     return this.userService.findOne(id);
   }
 
   @Patch(':id')
-  @MessagePattern('updateUser')
-  async update(@Param() updateUserDto: UpdateUserDto) {
+  @EventPattern('updateUser')
+  async update(@Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(updateUserDto.id, updateUserDto);
   }
 
   @Delete(':id')
-  @MessagePattern('removeUser')
-  async remove(@Param('id') id: ObjectId) {
+  @EventPattern('removeUser')
+  async remove(@Body() id: ObjectId) {
+    console.log('remove id', id);
     return this.userService.remove(id);
   }
 }

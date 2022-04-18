@@ -69,7 +69,7 @@ export class UserService {
 
   async remove(id: ObjectId) {
     try {
-      await this.userModel.findOne(id);
+      await this.userModel.findOne({ _id: id });
       const user = await this.userModel.deleteOne({ _id: id }).exec();
       return user;
     } catch (ex) {
