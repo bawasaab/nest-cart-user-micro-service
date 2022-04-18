@@ -1,6 +1,6 @@
 import {
   Injectable,
-  InternalServerErrorException,
+  UnprocessableEntityException,
   NotFoundException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -18,7 +18,7 @@ export class UserService {
       const createdUser = new this.userModel(createUserDto);
       return createdUser.save();
     } catch (ex) {
-      throw new InternalServerErrorException(ex.toString());
+      throw new UnprocessableEntityException(ex.toString());
     }
   }
 
@@ -30,7 +30,7 @@ export class UserService {
       }
       return user;
     } catch (ex) {
-      throw new InternalServerErrorException(ex.toString());
+      throw new UnprocessableEntityException(ex.toString());
     }
   }
 
@@ -42,7 +42,7 @@ export class UserService {
       }
       return user;
     } catch (ex) {
-      throw new InternalServerErrorException(ex.toString());
+      throw new UnprocessableEntityException(ex.toString());
     }
   }
 
@@ -63,17 +63,17 @@ export class UserService {
       }
       return updatedUser.save();
     } catch (ex) {
-      throw new InternalServerErrorException(ex.toString());
+      throw new UnprocessableEntityException(ex.toString());
     }
   }
 
   async remove(id: ObjectId) {
     try {
-      await this.findOne(id);
+      await this.userModel.findOne(id);
       const user = await this.userModel.deleteOne({ _id: id }).exec();
       return user;
     } catch (ex) {
-      throw new InternalServerErrorException(ex.toString());
+      throw new UnprocessableEntityException(ex.toString());
     }
   }
 }
