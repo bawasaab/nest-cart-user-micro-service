@@ -36,7 +36,6 @@ export class UserController {
   @Delete(':id')
   @EventPattern('removeUser')
   async remove(@Body() id: ObjectId) {
-    console.log('remove id', id);
     return this.userService.remove(id);
   }
 }
